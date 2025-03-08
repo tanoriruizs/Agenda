@@ -1,0 +1,31 @@
+﻿
+Microsoft Visual Studio Solution File, Format Version 12.00
+# Visual Studio Version 17
+VisualStudioVersion = 17.13.35825.156 d17.13
+MinimumVisualStudioVersion = 10.0.40219.1
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Agenda", "Agenda\Agenda.csproj", "{F2103234-EC11-45A1-833A-DE66E4F0EF7F}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "API_Agenda", "API_Agenda\API_Agenda.csproj", "{9C220CA0-D3AC-454C-ACB8-986A3176F672}"
+EndProject
+Global
+	GlobalSection(SolutionConfigurationPlatforms) = preSolution
+		Debug|Any CPU = Debug|Any CPU
+		Release|Any CPU = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(ProjectConfigurationPlatforms) = postSolution
+		{F2103234-EC11-45A1-833A-DE66E4F0EF7F}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{F2103234-EC11-45A1-833A-DE66E4F0EF7F}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{F2103234-EC11-45A1-833A-DE66E4F0EF7F}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{F2103234-EC11-45A1-833A-DE66E4F0EF7F}.Release|Any CPU.Build.0 = Release|Any CPU
+		{9C220CA0-D3AC-454C-ACB8-986A3176F672}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{9C220CA0-D3AC-454C-ACB8-986A3176F672}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{9C220CA0-D3AC-454C-ACB8-986A3176F672}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{9C220CA0-D3AC-454C-ACB8-986A3176F672}.Release|Any CPU.Build.0 = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(SolutionProperties) = preSolution
+		HideSolutionNode = FALSE
+	EndGlobalSection
+	GlobalSection(ExtensibilityGlobals) = postSolution
+		SolutionGuid = {BAF4D96D-BDCF-431E-86F2-740BFA659613}
+	EndGlobalSection
+EndGlobal
