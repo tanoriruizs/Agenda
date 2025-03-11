@@ -1,0 +1,93 @@
+﻿@page "/"
+@using Agenda.Services
+@using Agenda.Shared.Model
+@rendermode InteractiveServer
+
+@inject UsuarioService UsuarioService
+
+<h1>Gestión de Usuarios</h1>
+
+<button @onclick="MostrarFormularioAgregar" class="btn btn-success text-end">Agregar Usuario<i class="bi bi-plus-circle ms-1"></i></button>
+
+@if (usuarios is null)
+{
+    <p>Cargando usuarios...</p>
+}
+else
+{
+    <table class="table table-striped mt-3">
+        <thead>
+            <tr>
+                <th>#</th>
+                <th>Nombre</th>
+                <th>Correo</th>
+                <th>Teléfono</th>
+                <th class="text-center">Acciones</th>
+            </tr>
+        </thead>
+        <tbody>
+            @foreach (var usuario in usuarios)
+            {
+                <tr>
+                    <td>@usuario.Id</td>
+                    <td>@usuario.Nombre</td>
+                    <td>@usuario.Correo</td>
+                    <td>@usuario.Telefono</td>
+                    <td class="text-center">
+                        <button @onclick="() => EditarUsuario(usuario)" class="btn btn-warning btn-sm"><i class="bi bi-pencil-square"></i></button>
+                        <button @onclick="() => EliminarUsuario(usuario.Id)" class="btn btn-danger btn-sm"><i class="bi bi-trash3-fill"></i></button>
+                    </td>
+                </tr>
+            }
+        </tbody>
+    </table>
+}
+
+@if (mostrandoFormulario)
+{
+    <div class="modal fade show d-block" tabindex="-1" style="background: rgba(0,0,0,0.5);">
+        <div class="modal-dialog">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title">@(usuarioSeleccionado?.Id == 0 ? "Agregar Usuario" : "Editar Usuario")</h5>
+                    <button type="button" class="btn-close" @onclick="CancelarEdicion"></button>
+                </div>
+                <div class="modal-body">
+                    @if (!string.IsNullOrEmpty(mensajeError))
+                    {
+                        <div class="alert alert-danger">@mensajeError</div>
+                    }
+                    <div class="mb-3">
+                        <label class="form-label">Nombre<span style="color: red;">*</span></label>
+
+                        <input class="form-control" @bind="usuarioSeleccionado.Nombre" />
+                        @if (mostrarErrorNombre)
+                        {
+                            <div class="text-danger">El nombre es obligatorio.</div>
+                        }
+                    </div>
+                    <div class="mb-3">
+                        <label class="form-label">Correo<span style="color: red;">*</span></label>
+                        <input class="form-control" @bind="usuarioSeleccionado.Correo" />
+                        @if (mostrarErrorCorreo)
+                        {
+                            <div class="text-danger">El correo es obligatorio.</div>
+                        }
+                    </div>
+                    <div class="mb-3">
+                        <label class="form-label">Teléfono<span style="color: red;">*</span></label>
+                        <input class="form-control" @bind="usuarioSeleccionado.Telefono" />
+                        @if (mostrarErrorTelefono)
+                        {
+                            <div class="text-danger">El teléfono es obligatorio.</div>
+                        }
+                    </div>
+                </div>
+                <div class="modal-footer">
+                    <button class="btn btn-secondary" @onclick="CancelarEdicion">Cancelar</button>
+                    <button class="btn btn-primary" @onclick="() => GuardarUsuario(usuarioSeleccionado)">Guardar</button>
+                </div>
+            </div>
+        </div>
+    </div>
+}
