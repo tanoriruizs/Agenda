@@ -1,7 +1,6 @@
 ﻿using Agenda.Shared.Model;
 using System.Net.Http.Json;
 
-
 namespace Agenda.Services
 {
     public class UsuarioService
@@ -10,7 +9,7 @@ namespace Agenda.Services
 
         public UsuarioService(HttpClient httpClient)
         {
-            httpClient.BaseAddress ??= new Uri("https://localhost:7075/"); // Asegurar BaseAddress
+            httpClient.BaseAddress ??= new Uri("https://localhost:7075/");
             _httpClient = httpClient;
         }
 
@@ -47,7 +46,7 @@ namespace Agenda.Services
 
     public class ApiResponse<T>
     {
-        public T Data { get; set; }
-        public string TiempoEjecucion { get; set; }
+        public T Data { get; set; } = default!;
+        public string TiempoEjecucion { get; set; } = string.Empty;
     }
 }

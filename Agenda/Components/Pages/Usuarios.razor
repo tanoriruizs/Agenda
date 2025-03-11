@@ -6,41 +6,76 @@
 @inject UsuarioService UsuarioService
 
 <h1>Gestión de Usuarios</h1>
+<br />
+<div class="d-flex justify-content-between mb-3">
+    <div>
+        <button class="btn @(mostrandoFavoritos ? "btn-warning active" : "btn-warning") me-2" @onclick="MostrarFavoritos">
+            Favoritos <i class="bi bi-star-fill ms-1"></i>
+        </button>
+        <button class="btn @(mostrandoListaNegra ? "btn-dark active" : "btn-dark")" @onclick="MostrarListaNegra">
+            Lista Negra <i class="bi bi-ban ms-1"></i>
+        </button>
+    </div>
+    <div>
+        <button @onclick="MostrarFormularioAgregar" class="btn btn-success">
+            Agregar Usuario <i class="bi bi-plus-circle ms-1"></i>
+        </button>
+    </div>
+</div>
 
-<button @onclick="MostrarFormularioAgregar" class="btn btn-success text-end">Agregar Usuario<i class="bi bi-plus-circle ms-1"></i></button>
-
-@if (usuarios is null)
+@if (usuariosFiltrados is not null && usuariosFiltrados.Any())
 {
-    <p>Cargando usuarios...</p>
-}
-else
-{
-    <table class="table table-striped mt-3">
-        <thead>
+    <div class="table-responsive"> 
+    <table class="table table-striped mt-3" >
+        <thead class="table-dark">
             <tr>
-                <th>#</th>
-                <th>Nombre</th>
-                <th>Correo</th>
-                <th>Teléfono</th>
+                <th class="text-center">#</th>
+                <th class="text-center">Nombre</th>
+                <th class="text-center">Correo</th>
+                <th class="text-center">Teléfono</th>
+                <th class="text-center">Estado</th>
                 <th class="text-center">Acciones</th>
             </tr>
         </thead>
         <tbody>
-            @foreach (var usuario in usuarios)
+            @foreach (var usuario in usuariosFiltrados)
             {
                 <tr>
-                    <td>@usuario.Id</td>
-                    <td>@usuario.Nombre</td>
-                    <td>@usuario.Correo</td>
-                    <td>@usuario.Telefono</td>
+                    <td class="text-center">@usuario.Id</td>
+                    <td class="text-center">@usuario.Nombre</td>
+                    <td class="text-center">@usuario.Correo</td>
+                    <td class="text-center">@usuario.Telefono</td>
                     <td class="text-center">
-                        <button @onclick="() => EditarUsuario(usuario)" class="btn btn-warning btn-sm"><i class="bi bi-pencil-square"></i></button>
-                        <button @onclick="() => EliminarUsuario(usuario.Id)" class="btn btn-danger btn-sm"><i class="bi bi-trash3-fill"></i></button>
+                        @if (usuario.Favorito)
+                        {
+                            <button type="button" class="btn btn-warning justify-content-center align-items-center">
+                                <i class="bi bi-star-fill"></i>
+                            </button>
+                        }
+                        else if (usuario.ListaNegra)
+                        {
+                            <button type="button" class="btn btn-dark justify-content-center align-items-center">
+                                <i class="bi bi-ban"></i>
+                            </button>
+                        }
+                    </td>
+                    <td class="text-center">
+                        <button @onclick="() => EditarUsuario(usuario)" class="btn btn-primary btn-sm">
+                            <i class="bi bi-pencil-square"></i>
+                        </button>
+                        <button @onclick="() => EliminarUsuario(usuario.Id)" class="btn btn-danger btn-sm">
+                            <i class="bi bi-trash3-fill"></i>
+                        </button>
                     </td>
                 </tr>
             }
         </tbody>
     </table>
+    </div>
+}
+else
+{
+    <p class="text-center text-muted">No hay usuarios para mostrar.</p>
 }
 
 @if (mostrandoFormulario)
@@ -59,7 +94,6 @@ else
                     }
                     <div class="mb-3">
                         <label class="form-label">Nombre<span style="color: red;">*</span></label>
-
                         <input class="form-control" @bind="usuarioSeleccionado.Nombre" />
                         @if (mostrarErrorNombre)
                         {
@@ -81,6 +115,14 @@ else
                         {
                             <div class="text-danger">El teléfono es obligatorio.</div>
                         }
+                    </div>
+                    <div class="mb-3 form-check">
+                        <input class="form-check-input" type="checkbox" @bind="usuarioSeleccionado.Favorito" />
+                        <label class="form-check-label">Marcar como Favorito</label>
+                    </div>
+                    <div class="mb-3 form-check">
+                        <input class="form-check-input" type="checkbox" @bind="usuarioSeleccionado.ListaNegra" />
+                        <label class="form-check-label">Agregar a Lista Negra</label>
                     </div>
                 </div>
                 <div class="modal-footer">

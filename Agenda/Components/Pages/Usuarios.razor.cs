@@ -5,12 +5,15 @@ namespace Agenda.Components.Pages
     public partial class Usuarios
     {
         private List<Usuario>? usuarios;
+        private List<Usuario>? usuariosFiltrados;
         private Usuario usuarioSeleccionado = new Usuario();
         private bool mostrandoFormulario = false;
         private bool mostrarErrorNombre = false;
         private bool mostrarErrorCorreo = false;
         private bool mostrarErrorTelefono = false;
         private string mensajeError = "";
+        private bool mostrandoFavoritos = false;
+        private bool mostrandoListaNegra = false;
 
         protected override async Task OnInitializedAsync()
         {
@@ -20,6 +23,31 @@ namespace Agenda.Components.Pages
         private async Task CargarUsuarios()
         {
             usuarios = await UsuarioService.GetUsuariosAsync();
+            FiltrarUsuarios();
+        }
+
+        private void FiltrarUsuarios()
+        {
+            if (mostrandoFavoritos)
+                usuariosFiltrados = usuarios?.Where(u => u.Favorito).ToList();
+            else if (mostrandoListaNegra)
+                usuariosFiltrados = usuarios?.Where(u => u.ListaNegra).ToList();
+            else
+                usuariosFiltrados = usuarios;
+        }
+
+        private void MostrarFavoritos()
+        {
+            mostrandoFavoritos = !mostrandoFavoritos;
+            mostrandoListaNegra = false;
+            FiltrarUsuarios();
+        }
+
+        private void MostrarListaNegra()
+        {
+            mostrandoListaNegra = !mostrandoListaNegra;
+            mostrandoFavoritos = false;
+            FiltrarUsuarios();
         }
 
         private void MostrarFormularioAgregar()
@@ -39,7 +67,9 @@ namespace Agenda.Components.Pages
                 Id = usuario.Id,
                 Nombre = usuario.Nombre,
                 Correo = usuario.Correo,
-                Telefono = usuario.Telefono
+                Telefono = usuario.Telefono,
+                Favorito = usuario.Favorito,
+                ListaNegra = usuario.ListaNegra
             };
             mensajeError = "";
             mostrandoFormulario = true;

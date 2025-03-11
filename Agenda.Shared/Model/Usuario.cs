@@ -19,6 +19,11 @@ namespace Agenda.Shared.Model
         [Phone(ErrorMessage = "El número de teléfono no es válido")]
         public string Telefono { get; set; } = string.Empty;
 
+        public bool Favorito { get; set; } = false; 
+
+        public bool ListaNegra { get; set; } = false; 
+    
+
         public DateTime FechaRegistro { get; set; } = DateTime.Now;
     }
 }

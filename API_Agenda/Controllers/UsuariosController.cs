@@ -97,7 +97,6 @@ namespace API_Agenda.Controllers
                 return NotFound(new { mensaje = "Usuario no encontrado", tiempoEjecucion = $"{stopwatch.ElapsedMilliseconds} ms" });
             }
 
-            // Validar si los datos (correo y teléfono) ya existen en otro usuario.
             if (!string.IsNullOrEmpty(usuario.Correo) && usuario.Correo != usuarioExistente.Correo)
             {
                 bool emailExists = await _context.Usuarios.AnyAsync(u => u.Correo == usuario.Correo);
@@ -118,10 +117,11 @@ namespace API_Agenda.Controllers
                 }
             }
 
-            // Actualizar los valores de las propiedades si se reciben.
             usuarioExistente.Nombre = usuario.Nombre ?? usuarioExistente.Nombre;
             usuarioExistente.Correo = usuario.Correo ?? usuarioExistente.Correo;
             usuarioExistente.Telefono = usuario.Telefono ?? usuarioExistente.Telefono;
+            usuarioExistente.Favorito = usuario.Favorito; 
+            usuarioExistente.ListaNegra = usuario.ListaNegra; 
 
             _context.Entry(usuarioExistente).State = EntityState.Modified;
             await _context.SaveChangesAsync();
